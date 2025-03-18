@@ -52,6 +52,7 @@ class FilterJsonArgumentResolverTest {
     private Predicate mockPredicate;
     private FilterJsonTypeConverter filterJsonTypeConverterMock;
     private List<HttpFilterAdapter> activeAdapters;
+    private FilterJsonSpecificationConverter specificationConverter;
 
     private static Stream<Arguments> simpleFilterDataProvider() {
         return Stream.of(
@@ -175,9 +176,11 @@ class FilterJsonArgumentResolverTest {
         this.httpServletRequestMock = mock(HttpServletRequest.class);
         this.modelAndViewContainerMock = mock(ModelAndViewContainer.class);
         this.webDataBinderFactoryMock = mock(WebDataBinderFactory.class);
+        this.specificationConverter =
+                new FilterJsonSpecificationConverter(this.filterJsonTypeConverterMock);
         this.filterJsonArgumentResolver = new FilterJsonArgumentResolver(
-                this.filterJsonTypeConverterMock,
-                this.activeAdapters
+                this.activeAdapters,
+                specificationConverter
         );
 
         this.mockCriteriaBuilder = mock(CriteriaBuilder.class);
